@@ -204,7 +204,7 @@ const StakingCalculator = () => {
         </div>
 
         {/* Interface principale */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl border border-purple-500/20 overflow-hidden">
+        <div className="hidden md:block bg-black/30 backdrop-blur-sm rounded-xl border border-purple-500/20 overflow-hidden">
           {/* Header avec recherche */}
           <div className="p-6 border-b border-purple-500/20">
             <div className="flex justify-between items-center mb-4">
