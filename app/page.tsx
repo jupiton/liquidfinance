@@ -7,7 +7,6 @@ const StakingCalculator = () => {
   const [activeTab, setActiveTab] = useState('my-staking');
   const [calculatorAmount, setCalculatorAmount] = useState('');
   const [selectedPool, setSelectedPool] = useState('');
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [isClient, setIsClient] = useState(false);
 
   // Données des pools disponibles
@@ -95,7 +94,7 @@ const StakingCalculator = () => {
   useEffect(() => {
     setIsClient(true);
     const timer = setInterval(() => {
-      setCurrentTime(new Date());
+      // Timer pour forcer le re-render et mettre à jour les calculs
     }, 1000);
 
     return () => clearInterval(timer);
