@@ -25,7 +25,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <form onSubmit={handleSubmit} className="bg-black/40 p-8 rounded-xl shadow-lg flex flex-col w-full max-w-sm border border-purple-500/30">
-        <h1 className="text-2xl font-bold text-white mb-6 text-center">Connexion</h1>
+        <h2 className="text-2xl font-bold text-white mb-6 text-center">Connexion</h2>
         <label className="text-purple-200 mb-2">Login</label>
         <input
           type="text"
