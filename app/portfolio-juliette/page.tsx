@@ -52,7 +52,7 @@ export default function PortfolioJuliette() {
   ];
 
   // Paramètres staking Juliette
-  const amountStaked = 8000;
+  const amountStaked = 10000;
   const monthlyRate = 2; // 2% par mois
   const stakingStartDate = new Date('2025-08-03');
   const totalDuration = 31;
