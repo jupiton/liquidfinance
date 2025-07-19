@@ -5,6 +5,7 @@ import { TrendingUp, Calculator, Euro } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Portfolio() {
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState('my-staking');
   const [calculatorAmount, setCalculatorAmount] = useState('');
   const [selectedPool, setSelectedPool] = useState('');
@@ -17,29 +18,40 @@ export default function Portfolio() {
     startDate: ''
   });
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Paramètres staking Noelle
   const amountStaked = 46650;
   const monthlyRate = 2; // 2% par mois
-  const stakingStartDate = new Date('2025-07-03');
   const totalDuration = 31;
+  
+  // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
+  const stakingStartDate = React.useMemo(() => new Date('2025-07-03'), []);
 
   useEffect(() => {
-    const now = new Date();
-    const timeDiff = now.getTime() - stakingStartDate.getTime();
-    const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
-    const dailyRate = monthlyRate / 100 / 30;
-    const dailyProfit = amountStaked * dailyRate;
-    const totalProfit = dailyProfit * daysElapsed;
-    const endDate = new Date(stakingStartDate);
-    endDate.setDate(endDate.getDate() + totalDuration);
-    setProfits({
-      daysElapsed,
-      totalProfit: Number(totalProfit.toFixed(2)),
-      dailyProfit: Number(dailyProfit.toFixed(2)),
-      endDate: endDate.toLocaleDateString('fr-FR'),
-      startDate: stakingStartDate.toLocaleDateString('fr-FR')
-    });
-  }, []);
+    // Utiliser un timeout pour s'assurer que le calcul se fait côté client
+    const timer = setTimeout(() => {
+      const now = new Date();
+      const timeDiff = now.getTime() - stakingStartDate.getTime();
+      const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
+      const dailyRate = monthlyRate / 100 / 30;
+      const dailyProfit = amountStaked * dailyRate;
+      const totalProfit = dailyProfit * daysElapsed;
+      const endDate = new Date(stakingStartDate);
+      endDate.setDate(endDate.getDate() + totalDuration);
+      setProfits({
+        daysElapsed,
+        totalProfit: Number(totalProfit.toFixed(2)),
+        dailyProfit: Number(dailyProfit.toFixed(2)),
+        endDate: endDate.toLocaleDateString('fr-FR'),
+        startDate: stakingStartDate.toLocaleDateString('fr-FR')
+      });
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [stakingStartDate, monthlyRate, amountStaked, totalDuration]);
 
   // Données des pools disponibles
   const availablePools = [
@@ -76,7 +88,7 @@ export default function Portfolio() {
   ];
 
   // Position active (calcul automatique)
-  const myStaking = {
+  const myStaking = mounted ? {
     pool: 'EURC-S M',
     fullName: 'USDT-Silver Monthly',
     amountStaked: amountStaked,
@@ -84,6 +96,16 @@ export default function Portfolio() {
     dateRange: `${profits.startDate} - ${profits.endDate}`,
     totalProfit: profits.totalProfit,
     yesterdayProfit: profits.dailyProfit,
+    status: 'Staking',
+    image: '🥈'
+  } : {
+    pool: 'EURC-S M',
+    fullName: 'USDT-Silver Monthly',
+    amountStaked: amountStaked,
+    duration: '0 jours',
+    dateRange: 'Chargement...',
+    totalProfit: 0,
+    yesterdayProfit: 0,
     status: 'Staking',
     image: '🥈'
   };

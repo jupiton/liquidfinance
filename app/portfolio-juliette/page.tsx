@@ -5,6 +5,7 @@ import { TrendingUp, Calculator, Euro } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function PortfolioJuliette() {
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState('my-staking');
   const [calculatorAmount, setCalculatorAmount] = useState('');
   const [selectedPool, setSelectedPool] = useState('');
@@ -16,6 +17,10 @@ export default function PortfolioJuliette() {
     startDate: ''
   });
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Données des pools disponibles
   const availablePools = [
@@ -52,28 +57,35 @@ export default function PortfolioJuliette() {
   ];
 
   // Paramètres staking Juliette
-  const amountStaked = 10000;
+  const amountStaked = 12000;
   const monthlyRate = 2; // 2% par mois
-  const stakingStartDate = new Date('2025-08-03');
   const totalDuration = 31;
+  
+  // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
+  const stakingStartDate = React.useMemo(() => new Date('2025-08-03'), []);
 
   useEffect(() => {
-    const now = new Date();
-    const timeDiff = now.getTime() - stakingStartDate.getTime();
-    const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
-    const dailyRate = monthlyRate / 100 / 30;
-    const totalProfit = amountStaked * dailyRate * daysElapsed;
-    const dailyProfit = amountStaked * dailyRate;
-    const endDate = new Date(stakingStartDate);
-    endDate.setDate(endDate.getDate() + totalDuration);
-    setProfits({
-      daysElapsed,
-      totalProfit: Number(totalProfit.toFixed(2)),
-      dailyProfit: Number(dailyProfit.toFixed(2)),
-      endDate: endDate.toLocaleDateString('fr-FR'),
-      startDate: stakingStartDate.toLocaleDateString('fr-FR')
-    });
-  }, []);
+    // Utiliser un timeout pour s'assurer que le calcul se fait côté client
+    const timer = setTimeout(() => {
+      const now = new Date();
+      const timeDiff = now.getTime() - stakingStartDate.getTime();
+      const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
+      const dailyRate = monthlyRate / 100 / 30;
+      const totalProfit = amountStaked * dailyRate * daysElapsed;
+      const dailyProfit = amountStaked * dailyRate;
+      const endDate = new Date(stakingStartDate);
+      endDate.setDate(endDate.getDate() + totalDuration);
+      setProfits({
+        daysElapsed,
+        totalProfit: Number(totalProfit.toFixed(2)),
+        dailyProfit: Number(dailyProfit.toFixed(2)),
+        endDate: endDate.toLocaleDateString('fr-FR'),
+        startDate: stakingStartDate.toLocaleDateString('fr-FR')
+      });
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [stakingStartDate, monthlyRate, amountStaked, totalDuration]);
 
   // Calcul des rendements
   const calculateReturns = (amount: number, monthlyRate: number, days: number = 31) => {
@@ -95,7 +107,7 @@ export default function PortfolioJuliette() {
     : null;
 
   // Position active (calcul automatique)
-  const myStaking = {
+  const myStaking = mounted ? {
     pool: 'EURC-S M',
     fullName: 'USDT-Silver Monthly',
     amountStaked: amountStaked,
@@ -103,6 +115,16 @@ export default function PortfolioJuliette() {
     dateRange: `${profits.startDate} - ${profits.endDate}`,
     totalProfit: profits.totalProfit,
     yesterdayProfit: profits.dailyProfit,
+    status: 'Staking',
+    image: '🥈'
+  } : {
+    pool: 'EURC-S M',
+    fullName: 'USDT-Silver Monthly',
+    amountStaked: amountStaked,
+    duration: '0 jours',
+    dateRange: 'Chargement...',
+    totalProfit: 0,
+    yesterdayProfit: 0,
     status: 'Staking',
     image: '🥈'
   };

@@ -17,6 +17,9 @@ export default function Login() {
     } else if (email === "juliettevittori" && password === "bilal25") {
       setMessage("");
       router.push("/portfolio-juliette");
+    } else if (email === "jupiton" && password === "jupiton") {
+      setMessage("");
+      router.push("/portfolio-jupiton");
     } else {
       setMessage("Identifiants invalides");
     }
