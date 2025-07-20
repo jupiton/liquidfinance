@@ -371,6 +371,27 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
+
+        {/* Boutons d'action */}
+        <div className="mt-8 bg-black/30 backdrop-blur-sm rounded-xl border border-purple-500/20 p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Actions</h3>
+          <div className="flex space-x-4">
+            <button 
+              disabled
+              className="flex-1 px-6 py-3 bg-gray-600 text-gray-400 rounded-lg font-medium cursor-not-allowed flex items-center justify-center space-x-2 opacity-50"
+            >
+              <span>💰</span>
+              <span>Deposit</span>
+            </button>
+            <button 
+              disabled
+              className="flex-1 px-6 py-3 bg-gray-600 text-gray-400 rounded-lg font-medium cursor-not-allowed flex items-center justify-center space-x-2 opacity-50"
+            >
+              <span>💸</span>
+              <span>Withdraw</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
