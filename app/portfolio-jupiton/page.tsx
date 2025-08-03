@@ -74,7 +74,7 @@ export default function PortfolioJupiton() {
   const totalDuration = 31;
   
   // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
-  const stakingStartDate = React.useMemo(() => new Date('2025-06-15'), []);
+  const stakingStartDate = React.useMemo(() => new Date('2025-08-03'), []);
 
   useEffect(() => {
     // Utiliser un timeout pour s'assurer que le calcul se fait côté client
@@ -82,15 +82,12 @@ export default function PortfolioJupiton() {
       const now = new Date();
       const timeDiff = now.getTime() - stakingStartDate.getTime();
       const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
-      const dailyRate = monthlyRate / 100 / 30;
-      const totalProfit = amountStaked * dailyRate * daysElapsed;
-      const dailyProfit = amountStaked * dailyRate;
       const endDate = new Date(stakingStartDate);
       endDate.setDate(endDate.getDate() + totalDuration);
       setProfits({
         daysElapsed,
-        totalProfit: Number(totalProfit.toFixed(3)),
-        dailyProfit: Number(dailyProfit.toFixed(3)),
+        totalProfit: 0,
+        dailyProfit: 0,
         endDate: endDate.toLocaleDateString('fr-FR'),
         startDate: stakingStartDate.toLocaleDateString('fr-FR')
       });

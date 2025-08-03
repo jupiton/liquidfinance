@@ -23,12 +23,12 @@ export default function Portfolio() {
   }, []);
 
   // Paramètres staking Noelle
-  const amountStaked = 46650;
+  const amountStaked = 47614;
   const monthlyRate = 2; // 2% par mois
   const totalDuration = 31;
   
   // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
-  const stakingStartDate = React.useMemo(() => new Date('2025-07-03'), []);
+  const stakingStartDate = React.useMemo(() => new Date('2025-08-03'), []);
 
   useEffect(() => {
     // Utiliser un timeout pour s'assurer que le calcul se fait côté client
@@ -36,15 +36,12 @@ export default function Portfolio() {
       const now = new Date();
       const timeDiff = now.getTime() - stakingStartDate.getTime();
       const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
-      const dailyRate = monthlyRate / 100 / 30;
-      const dailyProfit = amountStaked * dailyRate;
-      const totalProfit = dailyProfit * daysElapsed;
       const endDate = new Date(stakingStartDate);
       endDate.setDate(endDate.getDate() + totalDuration);
       setProfits({
         daysElapsed,
-        totalProfit: Number(totalProfit.toFixed(2)),
-        dailyProfit: Number(dailyProfit.toFixed(2)),
+        totalProfit: 0,
+        dailyProfit: 0,
         endDate: endDate.toLocaleDateString('fr-FR'),
         startDate: stakingStartDate.toLocaleDateString('fr-FR')
       });
