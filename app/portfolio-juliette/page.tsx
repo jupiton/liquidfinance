@@ -57,12 +57,12 @@ export default function PortfolioJuliette() {
   ];
 
   // Paramètres staking Juliette
-  const amountStaked = 28000;
-  const monthlyRate = 2; // 2% par mois
+  const amountStaked = 71000;
+  const monthlyRate = 2; // 2% par mois (Silver)
   const totalDuration = 31;
   
   // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
-  const stakingStartDate = React.useMemo(() => new Date(), []);
+  const stakingStartDate = React.useMemo(() => new Date('2025-09-03'), []);
 
   useEffect(() => {
     // Utiliser un timeout pour s'assurer que le calcul se fait côté client
