@@ -11,16 +11,26 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Tentative de connexion:", { email, password });
+    
     if (email === "noellegarnier" && password === "juju25") {
       setMessage("");
+      console.log("Redirection vers /portfolio");
       router.push("/portfolio");
     } else if (email === "juliettevittori" && password === "bilal25") {
       setMessage("");
+      console.log("Redirection vers /portfolio-juliette");
       router.push("/portfolio-juliette");
     } else if (email === "jupiton" && password === "jupiton") {
       setMessage("");
+      console.log("Redirection vers /portfolio-jupiton");
       router.push("/portfolio-jupiton");
+    } else if (email === "cathymiquel" && password === "montat46") {
+      setMessage("");
+      console.log("Redirection vers /portfolio-cathy");
+      router.push("/portfolio-cathy");
     } else {
+      console.log("Identifiants invalides");
       setMessage("Identifiants invalides");
     }
   };
