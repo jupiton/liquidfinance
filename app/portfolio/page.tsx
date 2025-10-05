@@ -23,12 +23,12 @@ export default function Portfolio() {
   }, []);
 
   // Paramètres staking Noelle
-  const amountStaked = 48629.77;
+  const amountStaked = 76000;
   const monthlyRate = 2; // 2% par mois
   const totalDuration = 31;
   
   // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
-  const stakingStartDate = React.useMemo(() => new Date('2025-09-03'), []);
+  const stakingStartDate = React.useMemo(() => new Date('2025-10-04'), []);
 
   useEffect(() => {
     // Utiliser un timeout pour s'assurer que le calcul se fait côté client
