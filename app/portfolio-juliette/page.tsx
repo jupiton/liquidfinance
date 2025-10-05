@@ -57,12 +57,12 @@ export default function PortfolioJuliette() {
   ];
 
   // Paramètres staking Juliette
-  const amountStaked = 71000;
-  const monthlyRate = 2; // 2% par mois (Silver)
+  const amountStaked = 90000;
+  const monthlyRate = 5; // 5% par mois (Gold)
   const totalDuration = 31;
   
   // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
-  const stakingStartDate = React.useMemo(() => new Date('2025-09-03'), []);
+  const stakingStartDate = React.useMemo(() => new Date('2025-10-04'), []);
 
   useEffect(() => {
     // Utiliser un timeout pour s'assurer que le calcul se fait côté client
@@ -109,25 +109,25 @@ export default function PortfolioJuliette() {
 
   // Position active (calcul automatique)
   const myStaking = mounted ? {
-    pool: 'EURC-S M',
-    fullName: 'USDT-Silver Monthly',
+    pool: 'EUR-G M',
+    fullName: 'EURC-Gold Monthly',
     amountStaked: amountStaked,
     duration: `${profits.daysElapsed} jours`,
     dateRange: `${profits.startDate} - ${profits.endDate}`,
     totalProfit: profits.totalProfit,
     yesterdayProfit: profits.dailyProfit,
     status: 'Staking',
-    image: '🥈'
+    image: '🥇'
   } : {
-    pool: 'EURC-S M',
-    fullName: 'USDT-Silver Monthly',
+    pool: 'EUR-G M',
+    fullName: 'EURC-Gold Monthly',
     amountStaked: amountStaked,
     duration: '0 jours',
     dateRange: 'Chargement...',
     totalProfit: 0,
     yesterdayProfit: 0,
     status: 'Staking',
-    image: '🥈'
+    image: '🥇'
   };
 
   return (
