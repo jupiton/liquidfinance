@@ -18,10 +18,6 @@ export default function PortfolioJuliette() {
   });
   const router = useRouter();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // Données des pools disponibles
   const availablePools = [
     {
@@ -57,14 +53,26 @@ export default function PortfolioJuliette() {
   ];
 
   // Paramètres staking Juliette
-  const amountStaked = 90000;
+  const amountStaked = 94500;
   const monthlyRate = 5; // 5% par mois (Gold)
   const totalDuration = 31;
   
-  // Utiliser useMemo pour éviter la recréation de l'objet Date à chaque rendu
-  const stakingStartDate = React.useMemo(() => new Date('2025-10-04'), []);
+  // Date d'aujourd'hui (calculée uniquement côté client pour éviter les problèmes d'hydratation)
+  const [stakingStartDate, setStakingStartDate] = useState<Date | null>(null);
 
   useEffect(() => {
+    setMounted(true);
+    // Calculer la date d'aujourd'hui côté client uniquement
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    setStakingStartDate(new Date(`${year}-${month}-${day}`));
+  }, []);
+
+  useEffect(() => {
+    if (!stakingStartDate) return;
+    
     // Utiliser un timeout pour s'assurer que le calcul se fait côté client
     const timer = setTimeout(() => {
       const now = new Date();
@@ -72,8 +80,8 @@ export default function PortfolioJuliette() {
       const daysElapsed = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
       const dailyRate = monthlyRate / 100 / 30;
       const totalProfit = amountStaked * dailyRate * daysElapsed;
-      // Le profit quotidien est 0 si le staking commence aujourd'hui
-      const dailyProfit = daysElapsed > 0 ? amountStaked * dailyRate : 0;
+      // Rendement quotidien : montant gagné chaque jour
+      const dailyProfit = amountStaked * dailyRate;
       const endDate = new Date(stakingStartDate);
       endDate.setDate(endDate.getDate() + totalDuration);
       setProfits({
@@ -125,7 +133,7 @@ export default function PortfolioJuliette() {
     duration: '0 jours',
     dateRange: 'Chargement...',
     totalProfit: 0,
-    yesterdayProfit: 0,
+    yesterdayProfit: Number((amountStaked * monthlyRate / 100 / 30).toFixed(2)),
     status: 'Staking',
     image: '🥇'
   };
