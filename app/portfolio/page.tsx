@@ -28,12 +28,19 @@ export default function Portfolio() {
 
   useEffect(() => {
     setMounted(true);
-    // Calculer la date d'aujourd'hui côté client uniquement
+    // Date de départ du staking : 5 décembre
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    setStakingStartDate(new Date(`${year}-${month}-${day}`));
+    const month = today.getMonth() + 1; // 1-12
+    const day = today.getDate();
+    
+    // Déterminer l'année : si nous sommes avant le 5 décembre de l'année en cours, utiliser l'année précédente
+    let stakingYear = year;
+    if (month < 12 || (month === 12 && day < 5)) {
+      stakingYear = year - 1;
+    }
+    
+    setStakingStartDate(new Date(`${stakingYear}-12-05`));
   }, []);
 
   useEffect(() => {
