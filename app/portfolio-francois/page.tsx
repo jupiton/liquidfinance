@@ -25,7 +25,7 @@ export default function PortfolioFrancois() {
 
   // Paramètres staking François
   const amountStaked = 7000;
-  const monthlyRate = 2; // 2% par mois (Silver)
+  const monthlyRate = 1; // 1% par mois (Bronze)
   const totalDuration = 31;
   
   // Date d'aujourd'hui (calculée uniquement côté client pour éviter les problèmes d'hydratation)
@@ -110,25 +110,25 @@ export default function PortfolioFrancois() {
 
   // Position active (calcul automatique)
   const myStaking = mounted ? {
-    pool: 'EURC-S M',
-    fullName: 'USDT-Silver Monthly',
+    pool: 'EURC-B M',
+    fullName: 'USDT-Bronze Monthly',
     amountStaked: amountStaked,
     duration: `${profits.daysElapsed} jours`,
     dateRange: `${profits.startDate} - ${profits.endDate}`,
     totalProfit: profits.totalProfit,
     yesterdayProfit: profits.dailyProfit,
     status: 'Staking',
-    image: '🥈'
+    image: '🥉'
   } : {
-    pool: 'EURC-S M',
-    fullName: 'USDT-Silver Monthly',
+    pool: 'EURC-B M',
+    fullName: 'USDT-Bronze Monthly',
     amountStaked: amountStaked,
     duration: '0 jours',
     dateRange: 'Chargement...',
     totalProfit: 0,
     yesterdayProfit: Number((amountStaked * monthlyRate / 100 / 30).toFixed(2)),
     status: 'Staking',
-    image: '🥈'
+    image: '🥉'
   };
 
   // Calcul des rendements
