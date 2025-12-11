@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { TrendingUp, Calculator, Euro } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function Portfolio() {
+export default function PortfolioFrancois() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState('my-staking');
   const [calculatorAmount, setCalculatorAmount] = useState('');
@@ -23,9 +23,9 @@ export default function Portfolio() {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  // Paramètres staking Noelle
-  const amountStaked = 94575;
-  const monthlyRate = 5; // 5% par mois (Gold)
+  // Paramètres staking François
+  const amountStaked = 7000;
+  const monthlyRate = 2; // 2% par mois (Silver)
   const totalDuration = 31;
   
   // Date d'aujourd'hui (calculée uniquement côté client pour éviter les problèmes d'hydratation)
@@ -33,19 +33,19 @@ export default function Portfolio() {
 
   useEffect(() => {
     setMounted(true);
-    // Date de départ du staking : 5 décembre
+    // Date de départ du staking : 8 décembre
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1; // 1-12
     const day = today.getDate();
     
-    // Déterminer l'année : si nous sommes avant le 5 décembre de l'année en cours, utiliser l'année précédente
+    // Déterminer l'année : si nous sommes avant le 8 décembre de l'année en cours, utiliser l'année précédente
     let stakingYear = year;
-    if (month < 12 || (month === 12 && day < 5)) {
+    if (month < 12 || (month === 12 && day < 8)) {
       stakingYear = year - 1;
     }
     
-    setStakingStartDate(new Date(`${stakingYear}-12-05`));
+    setStakingStartDate(new Date(`${stakingYear}-12-08`));
   }, []);
 
   useEffect(() => {
@@ -110,25 +110,25 @@ export default function Portfolio() {
 
   // Position active (calcul automatique)
   const myStaking = mounted ? {
-    pool: 'EUR-G M',
-    fullName: 'EURC-Gold Monthly',
+    pool: 'EURC-S M',
+    fullName: 'USDT-Silver Monthly',
     amountStaked: amountStaked,
     duration: `${profits.daysElapsed} jours`,
     dateRange: `${profits.startDate} - ${profits.endDate}`,
     totalProfit: profits.totalProfit,
     yesterdayProfit: profits.dailyProfit,
     status: 'Staking',
-    image: '🥇'
+    image: '🥈'
   } : {
-    pool: 'EUR-G M',
-    fullName: 'EURC-Gold Monthly',
+    pool: 'EURC-S M',
+    fullName: 'USDT-Silver Monthly',
     amountStaked: amountStaked,
     duration: '0 jours',
     dateRange: 'Chargement...',
     totalProfit: 0,
     yesterdayProfit: Number((amountStaked * monthlyRate / 100 / 30).toFixed(2)),
     status: 'Staking',
-    image: '🥇'
+    image: '🥈'
   };
 
   // Calcul des rendements
@@ -164,7 +164,7 @@ export default function Portfolio() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <TrendingUp className="h-8 w-8 text-purple-400" />
-              <h1 className="text-2xl font-bold text-white">Noelle Garnier</h1>
+              <h1 className="text-2xl font-bold text-white">François Perne</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Euro className="h-6 w-6 text-green-400" />
@@ -416,4 +416,5 @@ export default function Portfolio() {
       </div>
     </div>
   );
-} 
+}
+

@@ -29,6 +29,10 @@ export default function Login() {
       setMessage("");
       console.log("Redirection vers /portfolio-cathy");
       router.push("/portfolio-cathy");
+    } else if (email === "cisco46" && password === "77331992") {
+      setMessage("");
+      console.log("Redirection vers /portfolio-francois");
+      router.push("/portfolio-francois");
     } else {
       console.log("Identifiants invalides");
       setMessage("Identifiants invalides");
